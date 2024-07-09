@@ -1,0 +1,89 @@
+MODELO ENTIDADE RELACIONAMENTO
+Oficina do Sr Ruffy.
+
+ 
+(01)-Tabela Cadastro_Cliente      
+           ID_Clinte,    INT PK auto incrementada
+            nome_cli,    VARCHAR(255)
+        telefone_cli,    VARCHAR(15)
+           email_cli,    VARCHAR(255)
+      status_vip_cli,    TINYINT
+             end_cli     VARCHAR(255)
+
+
+(02)-Tabela Cadastro_funcionario      
+       ID_funcionario,   INT PK
+            nome_func,   VARCHAR(255)
+        telefone_func,   VARCHAR(15)
+           email_func,   VARCHAR(255)
+   data_contrato_func,   DATE
+             end_func    VARCHAR(255)
+
+
+
+ (03)- Tabela Ordem_Serviço
+          ID_serviço,    INT PK
+      ID_funcionario,    VARCHAR(255)FK
+           ID_Clinte,    INT FK
+            ID_carro,    INT FK
+             ID_peça,    INT FK
+   Descrição_serviço,    VARCHAR(500)       
+      tempo_serviço,     TIME
+        data_serviço     DATE
+
+
+(04)- Tabela Peças
+            ID_peça,    INT PK
+          nome_peça,    VARCHAR(255)
+         preço_peça,    DECIMAL(10,5)
+         fornecedor     VARCHAR(255)
+      ID_tipo_peça,     INT FK
+
+
+
+(05)- Tabela tipo_peça
+          ID_tipo_peça, INT  PK auto incrementada
+	  descrição  VARCHAR(500)
+
+(06)- Tabela carros
+          ID_carro,    INT  PK
+	 ID_Clinte,    INT FK
+descrição_problema,    VARCHAR(255)
+	     marca,    VARCHAR(45)
+	       ano,    DATE
+	     placa     VARCHAR(7) 
+
+  (07) - Tabela Ordem Peças
+           (está tabela ela é gerada quando ocorre a cardinalidade de n:m entre peças e ordem_serviço, para facilitar a representação de muitos para muitos)
+           ID_serviço,   int FK
+           ID_peça,      int FK
+           ID_tipo_peça  int FK
+
+
+
+CARDINALIDADES:
+
+CLIENTES    (1 ---> N)   ORDEM SERVIÇO  == (PODE OCORRER VÁRIOS SERVIÇOS PARA UM CLIENTE, E VÁRIOS SERVIÇOS PODEM PERTENCER A UM CLIENTE)
+//quando fizermos a busca no banco de dados, vamo ver quantos serviços foram prestado para um cliente )
+
+CLIENTES     (1--->N) CARROS == (UM CLIENT PODE TER VARIOS CARROS, E VÁRIOS CARROS PODEM PERTENCER A UM CLLIENTE)
+//podemos buscar no banco quantos carros um cliente tem que ja passaram por essa oficina
+
+FUNCIONARIO (1 --->N) ORDEM SERVIÇOS  (UM FUNCIONARIO PODE REALIZAR VARIOS SERVIÇOS E VARIOS SERVIÇOS PODEM SEER FEITOS POR UM FUNCIONARIO)
+//isso significa que ele vai fazer varios serviço, não tudo de uma vez ksksk, quando fizermos a busca no banco, devemos ter registro de muitos serviços prestado.
+
+CARROS (1 --> N) ORDEM SERVIÇOS == (EM UM CARRO PODEM OCORRE VÁRIOS SERVIÇOS, E VÁRIOS SERVIÇOS EM UM CARRO)
+//o ideal é ter o controle dos serviços que foram feito em um carro.
+
+TIPO DE PEÇAS( 1 -->N) PEÇAS == (PODEM TER 1 TIPO DE VARIAS PEÇAS E VARIAS PEÇA DE 1 TIPO)
+
+
+PEÇAS (N -->M) ORDEM DE SERVIÇOS == (VARIAS PEÇAS PODEM PODE ESTÁ EM VÁRIOS SERVIÇOS E MUITOS SERVIÇOS PODEM TER MUITAS PEÇAS)
+
+
+
+PEÇAS (1---> N) ORDEM DE PEÇAS  ==( ASSIM TBM UMA PEÇA PODE ESTA
+ORDEM DE PEÇAS (N-->1)ORDEM SERVIÇO
+//está duas cardinalidade podem vir a ser necessarias para rastrear informações adicioanis, devido a tabela ordem de peças gerada da cardinalidade muito para muitos, mas para não aumentar o numero de chaves nessa tabela não iremos adicionar ao diagrama.
+
+   
